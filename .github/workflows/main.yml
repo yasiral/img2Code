@@ -16,8 +16,8 @@ jobs:
     - name: Run SSH commands
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.64.23.184.164 }}
-        username: ${{ secrets.root }}
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.DROPLET_SSH_KEY_PRIVATE }}
         script: |
           cd /image2codegit/img2code
