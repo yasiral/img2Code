@@ -1,0 +1,24 @@
+name: Deploy to DigitalOcean Droplet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run SSH commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.64.23.184.164 }}
+        username: ${{ secrets.root }}
+        key: ${{ secrets.DROPLET_SSH_KEY_private }}
+        script: |
+          cd /image2codegit/img2code
+          git pull origin main
