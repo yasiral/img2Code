@@ -18,7 +18,7 @@ jobs:
       with:
         host: ${{ secrets.64.23.184.164 }}
         username: ${{ secrets.root }}
-        key: ${{ secrets.DROPLET_SSH_KEY_private }}
+        key: ${{ secrets.DROPLET_SSH_KEY_PRIVATE }}
         script: |
           cd /image2codegit/img2code
           git pull origin main
