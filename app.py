@@ -26,7 +26,7 @@ def generate_image():
     output = replicate.run(
         "black-forest-labs/flux-pro",
         input=input_data,
-        api_token=REPLICATE_API_TOKEN
+       
     )
 
     return jsonify(output)
