@@ -4,132 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flux Image Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-       body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
-    text-align: center;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+			margin-top: 10px;
+        }
+       .output-container {
+			margin-top: 20px;
+			border: 2px dashed #ddd;
+			padding: 20px;
+			background-color: white;
+			color: #aaa;
+			font-style: italic;
+			min-height: 300px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 
-form {
-    margin-bottom: 20px;
-}
+		.output-container img {
+			max-width: 100%;
+			max-height: 100%;
+			display: block;
+		}
 
-input[type="text"] {
-    width: 80%;
-    padding: 10px;
-    font-size: 16px;
-}
-
-input[type="submit"] {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-#image-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#image-box {
-    width: 80%;
-    max-width: 600px;
-    height: 400px;
-    border: 2px solid #ddd;
-    background-color: white;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-#placeholder-text {
-    color: #aaa;
-    font-size: 18px;
-}
-
-#output-image {
-    max-width: 100%;
-    max-height: 100%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-#output-image.full-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#loading {
-    font-size: 18px;
-    color: #007bff;
-    margin-top: 10px;
-}
-
-#loading .fa-spinner {
-    margin-right: 10px;
-}
-
+		.output-container img,
+		.output-container p {
+			margin: 0;
+			padding: 0;
+		}
     </style>
 </head>
 <body>
     <h1>Generate Web App Front-End Design</h1>
     <form method="POST">
-        <input type="text" name="prompt" id="prompt" placeholder="Describe your design..." required>
+        <input type="text" name="prompt" placeholder="Describe your design..." required>
         <input type="submit" value="Generate">
     </form>
-    
-    <div id="prompt-text" style="display:none; margin-top: 20px;">
-        <strong>Prompt:</strong> <span id="user-prompt"></span>
+    {% if image_url %}
+    <div class="output">
+        <h2>Output Image Design</h2>
+        <img src="{{ image_url }}" alt="Generated Image">
     </div>
-
-    <div id="image-container">
-        <div id="image-box">
-            <p id="placeholder-text">Generated image will be displayed here</p>
-            <img id="output-image" src="" alt="Generated Image" style="display:none;">
-        </div>
-    </div>
-    
-    <div id="loading" style="display:none;">
-        <i class="fas fa-spinner fa-spin"></i> Generating Image...
-    </div>
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function() {
-            document.getElementById('placeholder-text').style.display = 'none';
-            document.getElementById('output-image').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('prompt-text').style.display = 'block';
-            document.getElementById('user-prompt').textContent = document.getElementById('prompt').value;
-        });
-
-        // Assuming the image URL is populated after generation
-        function displayGeneratedImage(url) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('output-image').src = url;
-            document.getElementById('output-image').style.display = 'block';
-        }
-
-        // Add event listener to make the image interactive
-        document.getElementById('output-image').addEventListener('click', function() {
-            this.classList.toggle('full-screen');
-        });
-    </script>
+    {% endif %}
+	<div class="output-container">
+    {% if image_url %}
+    <img src="{{ image_url }}" alt="Generated Image">
+    {% else %}
+    <p>Generated image will be displayed here</p>
+    {% endif %}
+</div>
 </body>
 </html>
