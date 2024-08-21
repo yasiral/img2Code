@@ -29,16 +29,20 @@
 			margin-top: 10px;
         }
        .output-container {
-			margin-top: 20px;
-			border: 2px dashed #ddd;
-			padding: 20px;
-			background-color: white;
-			color: #aaa;
-			font-style: italic;
-			min-height: 300px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			 margin-top: 20px;
+    			 border: 2px dashed #ddd;
+   			 padding: 20px;
+   			 background-color: white;
+         		 color: #aaa;
+    			 font-style: italic;
+   			 width: 300px;
+   			 height: 300px;
+    			display: flex;
+    			align-items: center;
+    			justify-content: center;
+   			position: relative;
+    			margin-left: auto;
+			margin-right: auto;
 		}
 
 		.output-container img {
@@ -52,6 +56,23 @@
 			margin: 0;
 			padding: 0;
 		}
+	    .loading-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
     </style>
 </head>
 <body>
@@ -66,12 +87,19 @@
         <img src="{{ image_url }}" alt="Generated Image">
     </div>
     {% endif %}
-	<div class="output-container">
+<div class="output-container">
+    <div class="loading-animation"></div>
     {% if image_url %}
     <img src="{{ image_url }}" alt="Generated Image">
     {% else %}
     <p>Generated image will be displayed here</p>
     {% endif %}
 </div>
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelector('.loading-animation').style.display = 'block';
+        document.querySelector('.output-container p').style.display = 'none';
+    });
+</script>
 </body>
 </html>
