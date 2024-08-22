@@ -29,20 +29,13 @@
 	    margin-top: 10px;
         }
        .output-container {
-			 margin-top: 20px;
-    			 border: 2px dashed #ddd;
-   			 padding: 20px;
-   			 background-color: white;
-         		 color: #aaa;
-    			 font-style: italic;
-   			 display: inline-block;;
-    			align-items: center;
-    			justify-content: center;
-   			position: relative;
-    			margin-left: auto;
-			margin-right: auto;
-		}
-
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border: 2px dashed #ddd;
+            display: inline-block;
+            position: relative;
+        }
 		.output-container img {
 			width: 100%;
            		 height: auto;
@@ -60,12 +53,15 @@
             text-align: left;
         }
         .prompt-container input[type="text"] {
-            width: 60%;
+            width: 80%; /* Adjusted for centering */
             padding: 8px;
             font-size: 14px;
             border: 1px solid #ddd;
             background-color: #f4f4f4;
             color: #333;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
 	    .loading-animation {
    			 position: absolute;
@@ -105,7 +101,7 @@
 <div class="output-container">
     <div class="loading-animation"></div>
     {% if image_url %}
-    <img src="{{ image_url }}" alt="Generated Image">
+    <img src="{{ image_url }}" alt="Generated Image" onclick="openFullImage('{{ image_url }}')">
     {% else %}
     <p>Generated image will be displayed here</p>
     {% endif %}
@@ -115,9 +111,9 @@
         document.querySelector('.loading-animation').style.display = 'block';
         document.querySelector('.output-container p').style.display = 'none';
     });
-   // Open image in full size when clicked
+  // Open image in full size when clicked
         function openFullImage(url) {
-            window.open(url, '_blank');
+            window.open(url, '_blank', 'noopener,noreferrer');
         }
 </script>
 </body>
