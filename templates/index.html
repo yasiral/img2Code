@@ -63,7 +63,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .prompt-container input[type="text"] {
+        .prompt-container textarea {
             width: 100%;
             padding: 8px;
             font-size: 14px;
@@ -71,7 +71,12 @@
             background-color: #f4f4f4;
             color: #333;
             box-sizing: border-box;
+            resize: none;
+            overflow-y: auto;
+            min-height: 70px; /* Approximately 3 lines of text */
+            max-height: 150px; /* Limit the maximum height */
         }
+
         .loading-animation {
             position: absolute;
             top: 50%;
@@ -100,9 +105,10 @@
 
     {% if image_url %}
     <div class="prompt-container">
-        <h4>Prompt used:</h4>
-        <input type="text" value="{{ prompt }}" readonly>
+    <h4>Prompt used:</h4>
+    <textarea readonly>{{ prompt }}</textarea>
     </div>
+
     {% endif %}
 
     <div class="output-container">
@@ -146,6 +152,21 @@
                 }
             };
         }
-    </script>
+        // New code for auto-resizing textarea
+    function autoResizeTextarea() {
+        const textarea = document.querySelector('.prompt-container textarea');
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
+        }
+    }
+
+    // Call the function when the page loads
+    window.addEventListener('load', autoResizeTextarea);
+
+    // Also call the function if the window is resized
+    window.addEventListener('resize', autoResizeTextarea);
+    
+</script>
 </body>
 </html>
