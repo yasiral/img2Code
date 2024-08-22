@@ -13,11 +13,16 @@
         }
         form {
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         input[type="text"] {
             width: 80%;
             padding: 10px;
             font-size: 16px;
+            box-sizing: border-box;
         }
         input[type="submit"] {
             padding: 10px 20px;
@@ -26,61 +31,64 @@
             color: white;
             border: none;
             cursor: pointer;
-	    margin-top: 10px;
+            margin-top: 10px;
         }
-       .output-container {
+        .output-container {
             margin-top: 20px;
             padding: 10px;
             background-color: white;
             border: 2px dashed #ddd;
             display: inline-block;
             position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-		.output-container img {
-			width: 100%;
-           		 height: auto;
-            		max-width: 300px; /* 30% of typical desktop width */
-            		cursor: pointer;
-		}
-
-		.output-container img,
-		.output-container p {
-			margin: 0;
-			padding: 0;
-		}
-	    .prompt-container {
+        .output-container img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            cursor: pointer;
+        }
+        .output-container p {
+            margin: 0;
+            padding: 0;
+        }
+        .prompt-container {
             margin-top: 10px;
             text-align: left;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .prompt-container input[type="text"] {
-            width: 80%; /* Adjusted for centering */
+            width: 100%;
             padding: 8px;
             font-size: 14px;
             border: 1px solid #ddd;
             background-color: #f4f4f4;
             color: #333;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
+            box-sizing: border-box;
         }
-	    .loading-animation {
-   			 position: absolute;
- 			   top: 50%;
-   			 left: 50%;
-   			 width: 50px;
-    			height: 50px;
-    			border: 3px solid #f3f3f3;
-    			border-top: 3px solid #3498db;
-    			border-radius: 50%;
-    			animation: spin 1s linear infinite;
-    			display: none;
-		    	transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
+        .loading-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -90,31 +98,54 @@
         <input type="submit" value="Generate">
     </form>
 
-   {% if image_url %}
-    <h2>Output Image Design</h2>
+    {% if image_url %}
     <div class="prompt-container">
         <h4>Prompt used:</h4>
         <input type="text" value="{{ prompt }}" readonly>
     </div>
-   {% endif %}
-	
-<div class="output-container">
-    <div class="loading-animation"></div>
-    {% if image_url %}
-    <img src="{{ image_url }}" alt="Generated Image" onclick="openFullImage('{{ image_url }}')">
-    {% else %}
-    <p>Generated image will be displayed here</p>
     {% endif %}
-</div>
+
+    <div class="output-container">
+        <div class="loading-animation"></div>
+        {% if image_url %}
+        <img src="{{ image_url }}" alt="Generated Image" onclick="openFullImage('{{ image_url }}')">
+        {% else %}
+        <p>Generated image will be displayed here</p>
+        {% endif %}
+    </div>
+
 <script>
-    document.querySelector('form').addEventListener('submit', function(e) {
-        document.querySelector('.loading-animation').style.display = 'block';
-        document.querySelector('.output-container p').style.display = 'none';
-    });
-  // Open image in full size when clicked
+        // Show loading animation on form submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            document.querySelector('.loading-animation').style.display = 'block';
+            // Hide the placeholder text
+            const placeholderText = document.querySelector('.output-container p');
+            if (placeholderText) {
+                placeholderText.style.display = 'none';
+            }
+        });
+
+        // Open image in full size when clicked
         function openFullImage(url) {
             window.open(url, '_blank', 'noopener,noreferrer');
         }
-</script>
+
+        // Hide loading animation and show image if it fails to load
+        const imageElement = document.querySelector('.output-container img');
+        if (imageElement) {
+            imageElement.onload = function() {
+                document.querySelector('.loading-animation').style.display = 'none';
+            };
+            imageElement.onerror = function() {
+                document.querySelector('.loading-animation').style.display = 'none';
+                // Show placeholder text again if image fails to load
+                const placeholderText = document.querySelector('.output-container p');
+                if (placeholderText) {
+                    placeholderText.style.display = 'block';
+                    placeholderText.textContent = 'Failed to load image.';
+                }
+            };
+        }
+    </script>
 </body>
 </html>
