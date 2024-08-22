@@ -12,7 +12,7 @@ def index():
         prompt = request.form['prompt']
         input_data = {
             "steps": 25,
-            "prompt": f"Web app front-end design: {prompt}",
+            "prompt": f"A sleek and modern landing page web design with white background and rousing fonts: {prompt}",
             "guidance": 3,
             "interval": 2,
             "aspect_ratio": "1:1",
