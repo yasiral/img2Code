@@ -26,7 +26,7 @@
             color: white;
             border: none;
             cursor: pointer;
-			margin-top: 10px;
+	    margin-top: 10px;
         }
        .output-container {
 			 margin-top: 20px;
@@ -35,9 +35,7 @@
    			 background-color: white;
          		 color: #aaa;
     			 font-style: italic;
-   			 width: 300px;
-   			 height: 300px;
-    			display: flex;
+   			 display: inline-block;;
     			align-items: center;
     			justify-content: center;
    			position: relative;
@@ -46,9 +44,10 @@
 		}
 
 		.output-container img {
-			max-width: 100%;
-			max-height: 100%;
-			display: block;
+			width: 100%;
+           		 height: auto;
+            		max-width: 300px; /* 30% of typical desktop width */
+            		cursor: pointer;
 		}
 
 		.output-container img,
@@ -56,17 +55,30 @@
 			margin: 0;
 			padding: 0;
 		}
+	    .prompt-container {
+            margin-top: 10px;
+            text-align: left;
+        }
+        .prompt-container input[type="text"] {
+            width: 60%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            background-color: #f4f4f4;
+            color: #333;
+        }
 	    .loading-animation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px;
-    height: 50px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    display: none;
+   			 position: absolute;
+ 			   top: 50%;
+   			 left: 50%;
+   			 width: 50px;
+    			height: 50px;
+    			border: 3px solid #f3f3f3;
+    			border-top: 3px solid #3498db;
+    			border-radius: 50%;
+    			animation: spin 1s linear infinite;
+    			display: none;
+		    	transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
@@ -81,12 +93,15 @@
         <input type="text" name="prompt" placeholder="Describe your design..." required>
         <input type="submit" value="Generate">
     </form>
-    {% if image_url %}
-    <div class="output">
-        <h2>Output Image Design</h2>
-        <img src="{{ image_url }}" alt="Generated Image">
+
+   {% if image_url %}
+    <h2>Output Image Design</h2>
+    <div class="prompt-container">
+        <h4>Prompt used:</h4>
+        <input type="text" value="{{ prompt }}" readonly>
     </div>
-    {% endif %}
+   {% endif %}
+	
 <div class="output-container">
     <div class="loading-animation"></div>
     {% if image_url %}
@@ -100,6 +115,10 @@
         document.querySelector('.loading-animation').style.display = 'block';
         document.querySelector('.output-container p').style.display = 'none';
     });
+   // Open image in full size when clicked
+        function openFullImage(url) {
+            window.open(url, '_blank');
+        }
 </script>
 </body>
 </html>
